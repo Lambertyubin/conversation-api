@@ -4,7 +4,7 @@ import { Route } from "../interfaces/Route.interface";
 import { requireAuthentication } from "../middlewares/Auth.middleware";
 import validationMiddleware from "../middlewares/Validation.middleware";
 import conversationImportController from "../controllers/ConversationImport.controller";
-import { fileMetadataExtractionMiddleware } from "../middlewares/FileMetaDataExtraction.middelware";
+import { fileMetadataExtractionMiddleware } from "../middlewares/FileMetadataExtraction.middelware";
 
 const upload = multer();
 
@@ -21,8 +21,8 @@ class ConversationImportRoute implements Route {
       `${this.path}/import`,
       requireAuthentication,
       upload.single("file"),
-      validationMiddleware(),
       fileMetadataExtractionMiddleware(),
+      validationMiddleware(),
       conversationImportController.uploadCsv
     );
   }

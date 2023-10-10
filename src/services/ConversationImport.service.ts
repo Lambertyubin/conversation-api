@@ -10,7 +10,6 @@ export class ConversationImportService {
 
   public async uploadFile(file: FileData): Promise<UploadedFile | undefined> {
     const result = await this._fileUploader.upload(file);
-    console.log("RESULT: ", result);
     return result;
   }
 }

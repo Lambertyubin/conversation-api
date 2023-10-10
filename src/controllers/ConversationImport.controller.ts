@@ -16,7 +16,6 @@ export class ConversationImportController {
   ): Promise<void> => {
     const { fileData } = req.body;
     try {
-      console.log("File-data: ", fileData);
       await this._conversationImportService.uploadFile(fileData!);
       res.status(200).send({ text: "CSV file uploaded successfully" });
     } catch (err: any) {
