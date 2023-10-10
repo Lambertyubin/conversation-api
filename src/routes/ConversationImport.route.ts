@@ -2,9 +2,13 @@ import { Router } from "express";
 import multer from "multer";
 import { Route } from "../interfaces/Route.interface";
 import { requireAuthentication } from "../middlewares/Auth.middleware";
-import validationMiddleware from "../middlewares/Validation.middleware";
+import {
+  fileValidationMiddleware,
+  validationMiddleware,
+} from "../middlewares/Validation.middleware";
 import conversationImportController from "../controllers/ConversationImport.controller";
 import { fileMetadataExtractionMiddleware } from "../middlewares/FileMetadataExtraction.middelware";
+import { PredefinedResponsesDto } from "../controllers/dtos/PredefinedResponses.dto";
 
 const upload = multer();
 
@@ -22,8 +26,15 @@ class ConversationImportRoute implements Route {
       requireAuthentication,
       upload.single("file"),
       fileMetadataExtractionMiddleware(),
-      validationMiddleware(),
+      fileValidationMiddleware(),
       conversationImportController.uploadCsv
+    );
+
+    this.router.post(
+      `${this.path}/predefined-responses`,
+      requireAuthentication,
+      validationMiddleware(PredefinedResponsesDto),
+      conversationImportController.loadPredefinedResponses
     );
   }
 }

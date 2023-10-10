@@ -1,3 +1,4 @@
+import { Channel } from "@prisma/client";
 import { ConversationChannel } from "../interfaces/enums/ConversationChannel.enum";
 
 export const extractLinesFromCsV = (text?: string): string[] => {
@@ -47,4 +48,11 @@ export const validateCsvFileContent = (
     }
   });
   return errorMessage;
+};
+
+export const getChannel = (channel: ConversationChannel): Channel => {
+  if (channel === ConversationChannel.EMAIL) return Channel.EMAIL;
+  if (channel === ConversationChannel.FACEBOOK) return Channel.FACEBOOK;
+  if (channel === ConversationChannel.INSTAGRAM) return Channel.INSTAGRAM;
+  return Channel.WHATSAPP;
 };

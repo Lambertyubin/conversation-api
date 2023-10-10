@@ -5,8 +5,10 @@ import {
   validateCsvFileContent,
 } from "../helpers/helpers";
 import { FileData } from "../interfaces/File.interface";
+import { plainToInstance } from "class-transformer";
+import { ValidationError, validate } from "class-validator";
 
-export default function validationMiddleware(): RequestHandler {
+export function fileValidationMiddleware(): RequestHandler {
   return async (
     req: Request,
     res: Response,
@@ -38,6 +40,34 @@ export default function validationMiddleware(): RequestHandler {
     } catch (err) {
       // log to Sentry
       res.status(400).send("Something is wrong with the file provided");
+    }
+  };
+}
+
+export function validationMiddleware(
+  type: any,
+  skipMissingProperties = false
+): RequestHandler {
+  return async (req, res, next): Promise<void> => {
+    const data = plainToInstance(type, req.body);
+    const errors = await validate(data, {
+      skipMissingProperties,
+      forbidUnknownValues: false,
+    });
+    req.body = data;
+    if (errors.length > 0) {
+      const messages = errors.map((error: ValidationError) => {
+        const message = error.toString();
+        const lines = message.split("\n");
+        lines.shift();
+        return lines.join("\n");
+      });
+
+      //TODO: log error in Sentry
+      res.status(400).send(messages.join("\n"));
+      return;
+    } else {
+      next();
     }
   };
 }

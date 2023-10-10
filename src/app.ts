@@ -67,6 +67,7 @@ class App {
       this.app.use(helmet());
     }
 
+    this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   }
 
