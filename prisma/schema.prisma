@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model PredefinedResponse {
+  id       String  @id @default(cuid())
+  entity   String
+  channel  Channel
+  response String
+}
+
+model Conversation {
+  id               String    @id @default(cuid())
+  senderUsername   String
+  receiverUsername String
+  messages         Message[]
+}
+
+model Message {
+  id             String        @id @default(cuid())
+  channel        Channel
+  message        String
+  response       String
+  Conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  conversationId String?
+}
+
+enum Channel {
+  FACEBOOK
+  INSTAGRAM
+  WHATSAPP
+  EMAIL
+}
