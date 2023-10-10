@@ -7,7 +7,7 @@ import http from "http";
 
 import { config } from "dotenv";
 import validateEnv from "./utils/validateEnv";
-import { Route } from "./models/interfaces/Route.interface";
+import { Route } from "./interfaces/Route.interface";
 import logger from "./utils/logger";
 
 let path = ".env";

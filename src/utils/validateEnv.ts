@@ -5,6 +5,7 @@ function validateEnv(): void {
     APP_ENV: str(),
     NODE_ENV: str(),
     PORT: port(),
+    AWS_BUCKET_NAME: str(),
   });
 }
 

@@ -1,9 +1,9 @@
 import "dotenv/config";
 import App from "./app";
-import { Router } from "express";
+import conversationImportRoute from "./routes/ConversationImport.route";
 
 (async () => {
-  const app = new App([{ path: "/any", router: Router() }]);
+  const app = new App([conversationImportRoute]);
   await app.initializeApp();
   await app.listen();
 })().catch((err: any) => {
