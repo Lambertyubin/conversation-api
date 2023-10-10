@@ -12,19 +12,39 @@ export const extractContentFromLines = (lines: string[]): string[][] => {
   return lines.map((line) => line.split(",").map((cell) => cell.trim()));
 };
 
-export const validateConversationChannels = (
+export const validateCsvFileContent = (
   csvContent: string[][]
-): boolean => {
-  let hasValidConversationChannels = true;
-  csvContent.forEach((line) => {
-    const channel = line[3];
+): string | undefined => {
+  let errorMessage;
+  if (!csvContent.length || !csvContent[0].length) {
+    return "File must not be empty";
+  }
+  csvContent.forEach((line, lineIndex) => {
+    const numberOfEntries = line.length;
+    const sender = numberOfEntries > 0 ? line[0] : undefined; // avoiding out-of-range index
+    const receiver = numberOfEntries > 1 ? line[1] : undefined;
+    const message = numberOfEntries > 2 ? line[2] : undefined;
+    const channel = numberOfEntries > 3 ? line[3] : undefined;
     const isAcceptedChannel = Object.values(ConversationChannel).includes(
-      channel.toLowerCase() as ConversationChannel
+      channel?.toLowerCase() as ConversationChannel
     );
+    const lineNumber = lineIndex + 2; // because we removed the first line as it contains labels
+    if (numberOfEntries !== 4) {
+      errorMessage = `Line ${lineNumber} does not contain exactly 4 comma separated entries`;
+      return;
+    }
+    if (!sender || !receiver || !message || !channel) {
+      errorMessage = `Line ${lineNumber} has an empty entry`;
+      return;
+    }
+    if (sender[0] !== "@" || receiver[0] !== "@") {
+      errorMessage = `Line ${lineNumber} has wrong format for sender or receiver username`;
+      return;
+    }
     if (!isAcceptedChannel) {
-      hasValidConversationChannels = false;
+      errorMessage = `Conversation channel must be any of facebook, instagram, whatsapp, or email on line ${lineNumber} `;
       return;
     }
   });
-  return hasValidConversationChannels;
+  return errorMessage;
 };

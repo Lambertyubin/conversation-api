@@ -2,7 +2,7 @@ import { RequestHandler, Request, Response, NextFunction } from "express";
 import {
   extractContentFromLines,
   extractLinesFromCsV,
-  validateConversationChannels,
+  validateCsvFileContent,
 } from "../helpers/helpers";
 import { FileData } from "../interfaces/File.interface";
 
@@ -28,14 +28,9 @@ export default function validationMiddleware(): RequestHandler {
       }
 
       const csvContent = extractContentFromLines(records);
-      const hasValidConversationChannels =
-        validateConversationChannels(csvContent);
-      if (!hasValidConversationChannels) {
-        res
-          .status(400)
-          .send(
-            "Conversation channel must be any of facebook, instagram, whatsapp, or email"
-          );
+      const errorMessage = validateCsvFileContent(csvContent);
+      if (errorMessage) {
+        res.status(400).send(errorMessage);
         return;
       }
 
