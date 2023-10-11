@@ -1,0 +1,12 @@
+APP_ENV=local
+NODE_ENV=local
+PORT=3100
+AUTH=false
+AWS_BUCKET_NAME=lamby-abc-bucket-2023
+AWS_ACCESS_KEY='AKIARGKOZOGXOD2IPAPK'
+AWS_SECRET_KEY='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'
+AWS_BUCKET_REGION='us-east-1'
+AWS_QUEUE_URL='https://sqs.us-east-1.amazonaws.com/082306494894/conversation-import-queue'
+DATABASE_URL="postgresql://<db_username>:<db_password>@localhost:5432/mydb"
+# replace <db_username> and <db_password> with your credentials
+# also replace the url if you're not using a local instance of postgres
