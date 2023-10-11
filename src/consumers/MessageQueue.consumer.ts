@@ -24,7 +24,7 @@ export class MessageQueueConsumer {
       sqs: this._sqsClient,
       queueUrl: this._queueUrl,
       handleMessage: async (message: Message): Promise<Message | void> => {
-        console.log(message.Body);
+        logger.info(`received queue message: ${message.Body}`);
         this._conversationAggregationService.aggregate(message.Body);
       },
     });

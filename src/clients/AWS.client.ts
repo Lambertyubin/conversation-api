@@ -39,15 +39,12 @@ export class AWSClient {
   public async downloadFileFromS3(
     fileKey: string
   ): Promise<string | undefined> {
-    console.log("arrives here");
     const command = new GetObjectCommand({
       Bucket: this._bucketName,
       Key: fileKey,
     });
 
     const response = await this._s3Client.send(command);
-
-    // The Body object also has 'transformToByteArray' and 'transformToWebStream' methods.
     return await response?.Body?.transformToString();
   }
 

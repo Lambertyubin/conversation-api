@@ -1,7 +1,7 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import {
-  extractContentFromLines,
-  extractLinesFromCsV,
+  extractContent,
+  extractRecords,
   validateCsvFileContent,
 } from "../helpers/helpers";
 import { FileData } from "../interfaces/File.interface";
@@ -21,7 +21,7 @@ export function fileValidationMiddleware(): RequestHandler {
         res.status(400).send("Must be a Csv file");
         return;
       }
-      const records = extractLinesFromCsV(fileData.content.toString());
+      const records = extractRecords(fileData.content.toString());
       const numberOfRecords = records.length;
 
       if (numberOfRecords > 1000) {
@@ -29,7 +29,7 @@ export function fileValidationMiddleware(): RequestHandler {
         return;
       }
 
-      const csvContent = extractContentFromLines(records);
+      const csvContent = extractContent(records);
       const errorMessage = validateCsvFileContent(csvContent);
       if (errorMessage) {
         res.status(400).send(errorMessage);

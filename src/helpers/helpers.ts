@@ -1,7 +1,7 @@
 import { Channel } from "@prisma/client";
 import { ConversationChannel } from "../interfaces/enums/ConversationChannel.enum";
 
-export const extractLinesFromCsV = (text?: string): string[] => {
+export const extractRecords = (text?: string): string[] => {
   if (!text) return [];
   return text
     .split("\n")
@@ -9,7 +9,7 @@ export const extractLinesFromCsV = (text?: string): string[] => {
     .slice(1);
 };
 
-export const extractContentFromLines = (lines: string[]): string[][] => {
+export const extractContent = (lines: string[]): string[][] => {
   return lines.map((line) => line.split(",").map((cell) => cell.trim()));
 };
 

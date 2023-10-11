@@ -4,10 +4,14 @@ import conversationImportService, {
   ConversationImportService,
 } from "../services/ConversationImport.service";
 import { PredefinedResponsesDto } from "./dtos/PredefinedResponses.dto";
+import responseInferenceService, {
+  ResponseInferenceService,
+} from "../services/ResponseInference.service";
 
 export class ConversationImportController {
   constructor(
-    private readonly _conversationImportService: ConversationImportService = conversationImportService
+    private readonly _conversationImportService: ConversationImportService = conversationImportService,
+    private readonly _responseInferenceService: ResponseInferenceService = responseInferenceService
   ) {}
 
   public uploadCsv = async (
@@ -33,7 +37,7 @@ export class ConversationImportController {
   ): Promise<void> => {
     const { data } = req.body;
     try {
-      await this._conversationImportService.loadResponses(data);
+      await this._responseInferenceService.loadResponses(data);
       res.status(200).send();
     } catch (err: any) {
       // log to Sentry
