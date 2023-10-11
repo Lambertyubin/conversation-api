@@ -40,9 +40,6 @@ class App {
   }
 
   public async initializeApp(): Promise<void> {
-    if (!this.isTest) {
-      // (await) connect to db
-    }
     this.initializeMiddlewares();
     this.initializeRoutes(this.routes);
     await this.initializeConsumers();

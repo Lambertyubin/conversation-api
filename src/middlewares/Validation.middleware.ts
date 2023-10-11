@@ -7,6 +7,7 @@ import {
 import { FileData } from "../interfaces/File.interface";
 import { plainToInstance } from "class-transformer";
 import { ValidationError, validate } from "class-validator";
+import logger from "../utils/logger";
 
 export function fileValidationMiddleware(): RequestHandler {
   return async (
@@ -37,8 +38,8 @@ export function fileValidationMiddleware(): RequestHandler {
       }
 
       next();
-    } catch (err) {
-      // log to Sentry
+    } catch (err: any) {
+      logger.error(err);
       res.status(400).send("Something is wrong with the file provided");
     }
   };

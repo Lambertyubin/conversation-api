@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { Route } from "../interfaces/Route.interface";
 import { requireAuthentication } from "../middlewares/Auth.middleware";
-import { validationMiddleware } from "../middlewares/Validation.middleware";
 import conversationController from "../controllers/Conversation.controller";
 import { paginationMiddleware } from "../middlewares/Pagination.middleware";
 

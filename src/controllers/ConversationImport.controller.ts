@@ -7,6 +7,7 @@ import { PredefinedResponsesDto } from "./dtos/PredefinedResponses.dto";
 import responseInferenceService, {
   ResponseInferenceService,
 } from "../services/ResponseInference.service";
+import logger from "../utils/logger";
 
 export class ConversationImportController {
   constructor(
@@ -20,11 +21,12 @@ export class ConversationImportController {
     next: NextFunction
   ): Promise<void> => {
     const { fileData } = req.body;
+    logger.info(`uploading csv file with name: ${fileData.name}`);
     try {
       await this._conversationImportService.uploadFile(fileData!);
       res.status(200).send({ text: "CSV file uploaded successfully" });
     } catch (err: any) {
-      // log to Sentry
+      logger.error(err);
       res.status(500).send(`Something went wrong ${err.message}`);
       next(err);
     }
@@ -40,7 +42,7 @@ export class ConversationImportController {
       await this._responseInferenceService.loadResponses(data);
       res.status(200).send();
     } catch (err: any) {
-      // log to Sentry
+      logger.error(err);
       res.status(500).send(`Something went wrong ${err.message}`);
       next(err);
     }

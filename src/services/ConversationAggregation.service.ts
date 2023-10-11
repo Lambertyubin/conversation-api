@@ -8,6 +8,7 @@ import conversationService, {
   ConversationService,
 } from "./Conversation.service";
 import messageService, { MessageService } from "./Message.service";
+import logger from "../utils/logger";
 
 export class ConversationAggregationService {
   constructor(
@@ -18,12 +19,16 @@ export class ConversationAggregationService {
   ) {}
   public async aggregate(sourceFileKey: string | undefined): Promise<void> {
     if (sourceFileKey) {
+      logger.info("fetching file from S3 bucket");
       const fileContent = await this._awsClient.downloadFileFromS3(
         sourceFileKey
       );
       const records = extractRecords(fileContent);
       const contents = extractContent(records);
 
+      logger.info(
+        "processing each message - inferring response from predefined responses, saving conversations, and messages"
+      );
       for (const [sender, receiver, message, channel] of contents) {
         const inferredResponse =
           await this._responseInferenceService.inferResponse(

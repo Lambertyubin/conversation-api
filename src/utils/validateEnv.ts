@@ -6,6 +6,11 @@ function validateEnv(): void {
     NODE_ENV: str(),
     PORT: port(),
     AWS_BUCKET_NAME: str(),
+    AWS_ACCESS_KEY: str(),
+    AWS_SECRET_KEY: str(),
+    AWS_BUCKET_REGION: str(),
+    AWS_QUEUE_URL: str(),
+    DATABASE_URL: str(),
   });
 }
 
