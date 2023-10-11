@@ -9,6 +9,7 @@ import { config } from "dotenv";
 import validateEnv from "./utils/validateEnv";
 import { Route } from "./interfaces/Route.interface";
 import logger from "./utils/logger";
+import { MessageQueueConsumer } from "./consumers/MessageQueue.consumer";
 
 let path = ".env";
 if (process.env.NODE_ENV === "test") {
@@ -44,6 +45,7 @@ class App {
     }
     this.initializeMiddlewares();
     this.initializeRoutes(this.routes);
+    await this.initializeConsumers();
   }
 
   public async listen(): Promise<void> {
@@ -78,6 +80,9 @@ class App {
     this.app.use("/ready", (req: Request, res: Response) => {
       res.status(200).send("Success");
     });
+  }
+  private async initializeConsumers(): Promise<void> {
+    await new MessageQueueConsumer(process.env.AWS_QUEUE_URL!).subscribe();
   }
 }
 

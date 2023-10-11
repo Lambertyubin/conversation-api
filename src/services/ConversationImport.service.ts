@@ -1,4 +1,4 @@
-import AWSFileUploadClient from "../clients/AWSFileUpload.client";
+import awsClient, { AWSClient } from "../clients/AWS.client";
 import { FileUploader } from "../interfaces/FileUploader.interface";
 import { UploadedFile } from "../interfaces/UploadedFile.interface";
 import { FileData } from "../interfaces/File.interface";
@@ -9,12 +9,16 @@ import predefinedResponsesDao, {
 
 export class ConversationImportService {
   constructor(
-    private readonly _fileUploader: FileUploader = AWSFileUploadClient,
+    private readonly _awsClient: AWSClient = awsClient,
     private readonly _predefinedResponsesDao: PredefinedResponsesDao = predefinedResponsesDao
   ) {}
 
   public async uploadFile(file: FileData): Promise<UploadedFile | undefined> {
-    return await this._fileUploader.upload(file);
+    const uploadedFileInfo = await this._awsClient.uploadFileToS3(file);
+    if (uploadedFileInfo) {
+      await this._awsClient.publishQueueMessage(uploadedFileInfo?.fileKey);
+    }
+    return uploadedFileInfo;
   }
   public async loadResponses(data: PredefinedResponseDto[]): Promise<void> {
     await this._predefinedResponsesDao.load(data);

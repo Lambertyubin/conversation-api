@@ -3,6 +3,9 @@ class Logger {
   public info(text: string) {
     console.log(text);
   }
+  public error(err: Error) {
+    // log to Sentry
+  }
 }
 
 export default new Logger();
