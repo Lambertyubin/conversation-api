@@ -122,3 +122,7 @@ This design is not void of flaws, and deserves some improvements. I focused more
 - **Step 8**: Fetch Conversations by sending a GET request to the endpoint `/conversation/` to see the list of all conversations. This endpoint supports pagination and you can use it by providing `page` and `pageSize` query parameters. For example: `/conversation?page=1&pageSize=5`.
 
 - **Step 9**: Fetch messages per conversation by sending a GET request to the endpoint `/conversation/<id>/chat`. Here you replace `<id>` with the id of the conversation whose messages you want to query. You should get this id from the query in step 8 above. This endpoint also supports the same pagination params described in step 8.
+
+## Video demo (only visible to those who have this link)
+
+- https://www.youtube.com/watch?v=j4e-PAmVfi0
