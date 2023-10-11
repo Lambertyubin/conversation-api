@@ -60,22 +60,6 @@ export class AWSClient {
     await this._sqsClient.send(command);
   }
 
-  private async uploadFile(file: FileData): Promise<string> {
-    const timestamp = Date.now();
-    const fileKey = this.generateFileKey(file, timestamp);
-    const params = {
-      Bucket: this._bucketName,
-      Key: fileKey,
-      ContentType: file.type,
-      Body: file.content,
-    };
-    const command = new PutObjectCommand(params);
-
-    await this._s3Client.send(command);
-
-    return `${fileKey}`;
-  }
-
   private generateFileKey(file: FileData, timestamp: number): string {
     return `${file.name}-${timestamp}.${file.extension}`;
   }
