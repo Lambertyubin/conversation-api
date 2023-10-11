@@ -43,7 +43,8 @@ export class ConversationAggregationService {
 
         const personalizedResponse = this.personalizeResponse(
           inferredResponse,
-          sender
+          sender,
+          receiver
         );
 
         await this._messageService.createMessage(
@@ -56,8 +57,14 @@ export class ConversationAggregationService {
     }
   }
 
-  private personalizeResponse(response: string, senderName: string): string {
-    return response.replaceAll("{{sender_username}}", senderName);
+  private personalizeResponse(
+    response: string,
+    senderName: string,
+    receiverName: string
+  ): string {
+    return response
+      .replaceAll("{{sender_username}}", senderName)
+      .replaceAll("{{reciever_username}}", receiverName);
   }
 }
 export default new ConversationAggregationService();
