@@ -15,6 +15,13 @@ class ConversationRoute implements Route {
 
   private initializeRoutes(): void {
     this.router.get(
+      `${this.path}/:id/chat`,
+      requireAuthentication,
+      paginationMiddleware(),
+      conversationController.getMessagesByConversation
+    );
+
+    this.router.get(
       `${this.path}/`,
       requireAuthentication,
       paginationMiddleware(),

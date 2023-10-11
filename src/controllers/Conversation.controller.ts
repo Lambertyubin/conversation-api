@@ -25,6 +25,26 @@ export class ConversationController {
       next(err);
     }
   };
+
+  public getMessagesByConversation = async (
+    req: IRequest<any>,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const conversationId = req.params.id;
+      const paginationParams = req.pagination;
+      const messages =
+        await this._conversationService.getMessagesByConversation(
+          conversationId,
+          paginationParams
+        );
+      res.status(200).send(messages);
+    } catch (err: any) {
+      // log to Sentry
+      next(err);
+    }
+  };
 }
 
 export default new ConversationController();

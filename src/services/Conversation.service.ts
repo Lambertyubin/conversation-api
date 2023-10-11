@@ -1,4 +1,4 @@
-import { Conversation } from "@prisma/client";
+import { Conversation, Message } from "@prisma/client";
 import conversationDao, { ConversationDao } from "../daos/Conversation.dao";
 import { Pagination } from "../interfaces/Pagination.interface";
 
@@ -30,6 +30,15 @@ export class ConversationService {
     paginationParams: Pagination | undefined
   ): Promise<Conversation[] | null> {
     return await this._conversationDao.getAllConversations(paginationParams);
+  }
+  public async getMessagesByConversation(
+    conversationId: string,
+    paginationParams: Pagination | undefined
+  ): Promise<Message[] | null> {
+    return await this._conversationDao.getMessagesByConversation(
+      conversationId,
+      paginationParams
+    );
   }
 
   private async findConversation(
