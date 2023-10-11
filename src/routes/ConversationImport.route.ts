@@ -13,7 +13,7 @@ import { PredefinedResponsesDto } from "../controllers/dtos/PredefinedResponses.
 const upload = multer();
 
 class ConversationImportRoute implements Route {
-  path = "/conversation";
+  path = "/conversation-import";
   router = Router();
 
   constructor() {
@@ -22,7 +22,7 @@ class ConversationImportRoute implements Route {
 
   private initializeRoutes(): void {
     this.router.post(
-      `${this.path}/import`,
+      `${this.path}/csv`,
       requireAuthentication,
       upload.single("file"),
       fileMetadataExtractionMiddleware(),
