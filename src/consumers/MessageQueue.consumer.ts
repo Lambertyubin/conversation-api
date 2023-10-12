@@ -24,8 +24,13 @@ export class MessageQueueConsumer {
       sqs: this._sqsClient,
       queueUrl: this._queueUrl,
       handleMessage: async (message: Message): Promise<Message | void> => {
-        logger.info(`received message with key: ${message.Body} from queue`);
-        this._conversationAggregationService.aggregate(message.Body);
+        if (message.Body) {
+          logger.info(`received message with key: ${message.Body} from queue`);
+          await this._conversationAggregationService.aggregate(message.Body);
+          logger.info(
+            "-> successfully extracted and saved conversations, and messages with responses!"
+          );
+        }
       },
     });
 

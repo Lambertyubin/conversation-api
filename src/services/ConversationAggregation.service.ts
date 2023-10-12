@@ -17,43 +17,39 @@ export class ConversationAggregationService {
     private readonly _conversationService: ConversationService = conversationService,
     private readonly _messageService: MessageService = messageService
   ) {}
-  public async aggregate(sourceFileKey: string | undefined): Promise<void> {
-    if (sourceFileKey) {
-      logger.info("fetching file from S3 bucket");
-      const fileContent = await this._awsClient.downloadFileFromS3(
-        sourceFileKey
-      );
-      const records = extractRecords(fileContent);
-      const contents = extractContent(records);
+  public async aggregate(sourceFileKey: string): Promise<void> {
+    logger.info("fetching file from S3 bucket");
+    const fileContent = await this._awsClient.downloadFileFromS3(sourceFileKey);
+    const records = extractRecords(fileContent);
+    const contents = extractContent(records);
 
-      logger.info(
-        "processing each message - inferring response from predefined responses, saving conversations, and messages"
-      );
-      for (const [sender, receiver, message, channel] of contents) {
-        const inferredResponse =
-          await this._responseInferenceService.inferResponse(
-            message,
-            channel as ConversationChannel
-          );
-
-        let conversationId = await this._conversationService.getConversationId(
-          sender,
-          receiver
-        );
-
-        const personalizedResponse = this.personalizeResponse(
-          inferredResponse,
-          sender,
-          receiver
-        );
-
-        await this._messageService.createMessage(
+    logger.info(
+      "processing each message - inferring response from predefined responses, saving conversations, and messages"
+    );
+    for (const [sender, receiver, message, channel] of contents) {
+      const inferredResponse =
+        await this._responseInferenceService.inferResponse(
           message,
-          personalizedResponse,
-          channel as ConversationChannel,
-          conversationId
+          channel as ConversationChannel
         );
-      }
+
+      let conversationId = await this._conversationService.getConversationId(
+        sender,
+        receiver
+      );
+
+      const personalizedResponse = this.personalizeResponse(
+        inferredResponse,
+        sender,
+        receiver
+      );
+
+      await this._messageService.createMessage(
+        message,
+        personalizedResponse,
+        channel as ConversationChannel,
+        conversationId
+      );
     }
   }
 

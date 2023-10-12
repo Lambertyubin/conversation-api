@@ -29,7 +29,7 @@ export class ConversationDao {
   }
 
   public async getAllConversations(
-    paginationParams: Pagination | undefined
+    paginationParams?: Pagination
   ): Promise<Conversation[] | null> {
     return await this._dbClient.conversation.findMany({
       skip: paginationParams?.skip,
@@ -39,7 +39,7 @@ export class ConversationDao {
 
   public async getMessagesByConversation(
     conversationId: string,
-    paginationParams: Pagination | undefined
+    paginationParams?: Pagination
   ): Promise<Message[] | null> {
     return await this._dbClient.message.findMany({
       where: {
