@@ -10,7 +10,12 @@ export class ConversationDao {
     receiver: string
   ): Promise<Conversation | null> {
     return await this._dbClient.conversation.findFirst({
-      where: { senderUsername: sender, receiverUsername: receiver },
+      where: {
+        OR: [
+          { senderUsername: sender, receiverUsername: receiver },
+          { senderUsername: receiver, receiverUsername: sender },
+        ],
+      },
     });
   }
 

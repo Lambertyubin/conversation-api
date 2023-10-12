@@ -15,9 +15,6 @@ export class ConversationService {
     conversation = await this.findConversation(sender, receiver);
 
     if (!conversation) {
-      conversation = await this.findConversation(receiver, sender);
-    }
-    if (!conversation) {
       conversation = await this.createConversation(sender, receiver);
     }
     if (!conversation?.id) {
