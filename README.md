@@ -25,8 +25,9 @@ I used the following technologies to build this API
 
 ### 2.2 Database schema
 
-Here's the schema that represents our database tables
-N/B: this is only be visible on github, not on gitfront
+Here's the schema that represents our database tables.
+
+- N/B: this is only be visible on github, not on gitfront
 
 ![db-schema drawio](https://github.com/Lambertyubin/conversation-api/assets/51297126/86ff7a15-9230-4e8f-8d08-8e93560345fa)
 
