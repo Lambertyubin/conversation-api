@@ -33,23 +33,25 @@ export class ConversationAggregationService {
           channel as ConversationChannel
         );
 
-      let conversationId = await this._conversationService.getConversationId(
-        sender,
-        receiver
-      );
+      if (inferredResponse) {
+        let conversationId = await this._conversationService.getConversationId(
+          sender,
+          receiver
+        );
 
-      const personalizedResponse = this.personalizeResponse(
-        inferredResponse,
-        sender,
-        receiver
-      );
+        const personalizedResponse = this.personalizeResponse(
+          inferredResponse,
+          sender,
+          receiver
+        );
 
-      await this._messageService.createMessage(
-        message,
-        personalizedResponse,
-        channel as ConversationChannel,
-        conversationId
-      );
+        await this._messageService.createMessage(
+          message,
+          personalizedResponse,
+          channel as ConversationChannel,
+          conversationId
+        );
+      }
     }
   }
 
@@ -60,7 +62,7 @@ export class ConversationAggregationService {
   ): string {
     return response
       .replaceAll("{{sender_username}}", senderName)
-      .replaceAll("{{reciever_username}}", receiverName);
+      .replaceAll("{{receiver_username}}", receiverName);
   }
 }
 export default new ConversationAggregationService();
