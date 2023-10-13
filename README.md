@@ -26,6 +26,7 @@ I used the following technologies to build this API
 ### 2.2 Database schema
 
 Here's the schema that represents our database tables
+N/B: this is only be visible on github, not on gitfront
 
 ![db-schema drawio](https://github.com/Lambertyubin/conversation-api/assets/51297126/86ff7a15-9230-4e8f-8d08-8e93560345fa)
 
@@ -36,6 +37,8 @@ Here's the schema that represents our database tables
 - The PredefinedResponse is the table that stores predefined responses for messages. It’s more of an inference table that keeps the match between entities and responses. Entities are more of intents detected from messages.
 
 ### 2.2 System flow diagram for file upload and processing
+
+#### N/B: this is only be visible on github, not on gitfront
 
 ![flow-diagramo](https://github.com/Lambertyubin/conversation-api/assets/51297126/f635c6b5-35e8-4693-9a64-2fde2e5c037a)
 
