@@ -88,7 +88,7 @@ This design is not void of flaws, and deserves some improvements. I focused more
         "data": [
             {
                 "channel": "email",
-                "entity": "Hi who are you?",
+                "entity": "who are you?",
                 "response": "Hi {{sender_username}} my name is {{receiver_username}}"
             },
             {
