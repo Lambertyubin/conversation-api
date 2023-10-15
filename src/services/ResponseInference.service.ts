@@ -4,7 +4,6 @@ import predefinedResponsesDao, {
   PredefinedResponsesDao,
 } from "../daos/PredefinedResponses.dao";
 import { getChannel } from "../helpers/helpers";
-import logger from "../utils/logger";
 
 export class ResponseInferenceService {
   constructor(

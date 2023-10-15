@@ -25,17 +25,8 @@ export class ConversationService {
 
   public async getAllConversations(
     paginationParams?: Pagination
-  ): Promise<Conversation[] | null> {
+  ): Promise<Conversation[]> {
     return await this._conversationDao.getAllConversations(paginationParams);
-  }
-  public async getMessagesByConversation(
-    conversationId: string,
-    paginationParams?: Pagination
-  ): Promise<Message[] | null> {
-    return await this._conversationDao.getMessagesByConversation(
-      conversationId,
-      paginationParams
-    );
   }
 
   private async findConversation(

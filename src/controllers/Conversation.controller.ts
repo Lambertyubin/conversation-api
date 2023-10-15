@@ -1,4 +1,4 @@
-import { IRequest } from "src/interfaces/IRequest.interface";
+import { IRequest } from "../interfaces/IRequest.interface";
 import conversationService, {
   ConversationService,
 } from "../services/Conversation.service";
@@ -22,33 +22,6 @@ export class ConversationController {
         paginationParams
       );
       res.status(200).send(conversations);
-    } catch (err: any) {
-      logger.error(err);
-      next(err);
-    }
-  };
-
-  public getMessagesByConversation = async (
-    req: IRequest<any>,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> => {
-    try {
-      const conversationId = req.params.id;
-      if (!conversationId) {
-        res.status(400).send("Must provide the id of the conversation");
-        return;
-      }
-      logger.info(
-        `fetching messages for conversation with id ${conversationId}conversations`
-      );
-      const paginationParams = req.pagination;
-      const messages =
-        await this._conversationService.getMessagesByConversation(
-          conversationId,
-          paginationParams
-        );
-      res.status(200).send(messages);
     } catch (err: any) {
       logger.error(err);
       next(err);

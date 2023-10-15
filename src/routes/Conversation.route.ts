@@ -3,6 +3,7 @@ import { Route } from "../interfaces/Route.interface";
 import { requireAuthentication } from "../middlewares/Auth.middleware";
 import conversationController from "../controllers/Conversation.controller";
 import { paginationMiddleware } from "../middlewares/Pagination.middleware";
+import messageController from "../controllers/Message.controller";
 
 class ConversationRoute implements Route {
   path = "/conversation";
@@ -17,7 +18,7 @@ class ConversationRoute implements Route {
       `${this.path}/:id/chat`,
       requireAuthentication,
       paginationMiddleware(),
-      conversationController.getMessagesByConversation
+      messageController.getMessagesByConversation
     );
 
     this.router.get(

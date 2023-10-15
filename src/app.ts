@@ -13,6 +13,7 @@ import { MessageQueueConsumer } from "./consumers/MessageQueue.consumer";
 
 let path = ".env";
 if (process.env.NODE_ENV === "test") {
+  // useful when we shall add integration tests that would use a test db for example
   path = ".env.test";
 }
 config({ path });

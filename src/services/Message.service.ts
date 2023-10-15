@@ -1,6 +1,7 @@
-import { ConversationChannel } from "src/interfaces/enums/ConversationChannel.enum";
+import { ConversationChannel } from "../interfaces/enums/ConversationChannel.enum";
 import messageDao, { MessageDao } from "../daos/Message.dao";
 import { Message } from "@prisma/client";
+import { Pagination } from "../interfaces/Pagination.interface";
 
 export class MessageService {
   constructor(private readonly _messageDao: MessageDao = messageDao) {}
@@ -15,6 +16,16 @@ export class MessageService {
       response,
       channel,
       conversationId
+    );
+  }
+
+  public async getMessagesByConversation(
+    conversationId: string,
+    paginationParams?: Pagination
+  ): Promise<Message[]> {
+    return await this._messageDao.getMessagesByConversation(
+      conversationId,
+      paginationParams
     );
   }
 }

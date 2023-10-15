@@ -2,6 +2,7 @@ import { PrismaClient, Message } from "@prisma/client";
 import DatabaseClient from "../clients/Database.client";
 import { ConversationChannel } from "../interfaces/enums/ConversationChannel.enum";
 import { getChannel } from "../helpers/helpers";
+import { Pagination } from "../interfaces/Pagination.interface";
 
 export class MessageDao {
   constructor(private _dbClient: PrismaClient = DatabaseClient.getInstance()) {}
@@ -18,6 +19,19 @@ export class MessageDao {
         conversationId,
         channel: getChannel(channel),
       },
+    });
+  }
+
+  public async getMessagesByConversation(
+    conversationId: string,
+    paginationParams?: Pagination
+  ): Promise<Message[]> {
+    return await this._dbClient.message.findMany({
+      where: {
+        conversationId,
+      },
+      skip: paginationParams?.skip,
+      take: paginationParams?.limit,
     });
   }
 }

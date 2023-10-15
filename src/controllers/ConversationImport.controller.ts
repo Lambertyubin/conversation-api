@@ -27,7 +27,6 @@ export class ConversationImportController {
       res.status(200).send({ text: "CSV file uploaded successfully" });
     } catch (err: any) {
       logger.error(err);
-      res.status(500).send(`Something went wrong ${err.message}`);
       next(err);
     }
   };
@@ -39,11 +38,11 @@ export class ConversationImportController {
   ): Promise<void> => {
     const { data } = req.body;
     try {
+      logger.info(`uploading entities and predefined responses...`);
       await this._responseInferenceService.loadResponses(data);
       res.status(200).send();
     } catch (err: any) {
       logger.error(err);
-      res.status(500).send(`Something went wrong ${err.message}`);
       next(err);
     }
   };

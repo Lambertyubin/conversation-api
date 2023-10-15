@@ -10,6 +10,8 @@ import conversationService, {
 import messageService, { MessageService } from "./Message.service";
 import logger from "../utils/logger";
 
+const SENDER_USERNAME_PLACEHOLDER = "{{sender_username}}";
+const RECEIVER_USERNAME_PLACEHOLDER = "{{receiver_username}}";
 export class ConversationAggregationService {
   constructor(
     private readonly _awsClient: AWSClient = awsClient,
@@ -61,8 +63,8 @@ export class ConversationAggregationService {
     receiverName: string
   ): string {
     return response
-      .replaceAll("{{sender_username}}", senderName)
-      .replaceAll("{{receiver_username}}", receiverName);
+      .replaceAll(SENDER_USERNAME_PLACEHOLDER, senderName)
+      .replaceAll(RECEIVER_USERNAME_PLACEHOLDER, receiverName);
   }
 }
 export default new ConversationAggregationService();
