@@ -71,20 +71,21 @@ Each endpoint has the following:
 This design is not void of flaws, and deserves some improvements. I focused more on the essentials of the challenge due to time constraints. Some of the limitations are:
 
 - **Processing csv file in memory:** a more scalable improvement would be to use streams and process the data in batches. This wasn't an issue at the moment since our file is small (1000 records of text content).
-- **Test coverage:** it is absolutelty necessary to write unit and integration tests. Usually I write tests for every small piece of code I write, but I couldn't do it here because of time constraint. Adding these tests would give some guarantee that we can add more features without breaking existing ones.
+- **Test coverage:** it is absolutety necessary to write at least unit and integration tests. I wrote unit tests for some services and would have done more and written integration test for endpoints if not because of time constraints. Adding more tests would increase the guarantee that we can add more features without breaking existing ones.
 - **Deleting objects from S3 bucket:** this would depend on the regulation on how long we should keep the files. It seems like we'll hardly reuse them hence they could be deleted programmatically after processing and storing the data in the database.
 
 ## 4. How to install and run this api service
 
-### 4.1. Setup
+### 4.1. Setup and Usage
 
 - **Step 1**: clone the repo to the local machine
 - **Step 2**: install dependencies -> `npm install`
 - **Step 3**: Create a `.env` file in the project root folder and copy the environment variables from `.envs.text` file into it.
 - - I've shared by credentials just to facilitate testing and ensure you can test without having to create your own S3 bucket or SQS queue. I will delete the account attached to these credentials after the testing. But if you wish to your own AWS service and credentials, it's still fine - simply update the corresponding environment variables.
 - **Step 4**: Run a database migration -> `npx prisma migrate dev` on your terminal. This would create the database client. Before doing this, ensure your postgres db instance is up and running.
-- **Step 5**: Start the app locally -> `npm run dev`
-- **Step 6**: Load predefined responses to the database by sending the following request:
+- **Step 5**: Run unit tests -> `npm run test`
+- **Step 6**: Start the app locally -> `npm run dev`
+- **Step 7**: Load predefined responses to the database by sending the following request:
 - - **Endpoint**: `/conversation-import/predefined-responses`
 - - **Method**: POST
 - - **Body (example)**:
@@ -116,16 +117,16 @@ This design is not void of flaws, and deserves some improvements. I focused more
 
 ### 4.2. Usage
 
-- **Step 7**: Uploading a csv file
+- **Step 8**: Uploading a csv file
 - - Endpoint: `/conversation-import/csv`
 - - Method: POST
 - - Body: should be a file in `form-data` category if you're using Postman
 - - example file:
     [sample_correct.csv](https://github.com/Lambertyubin/e-Learning-platform-frontend/files/12873996/sample_correct.csv)
 
-- **Step 8**: Fetch Conversations by sending a GET request to the endpoint `/conversation/` to see the list of all conversations. This endpoint supports pagination and you can use it by providing `page` and `pageSize` query parameters. For example: `/conversation?page=1&pageSize=5`.
+- **Step 9**: Fetch Conversations by sending a GET request to the endpoint `/conversation/` to see the list of all conversations. This endpoint supports pagination and you can use it by providing `page` and `pageSize` query parameters. For example: `/conversation?page=1&pageSize=5`.
 
-- **Step 9**: Fetch messages per conversation by sending a GET request to the endpoint `/conversation/<id>/chat`. Here you replace `<id>` with the id of the conversation whose messages you want to query. You should get this id from the query in step 8 above. This endpoint also supports the same pagination params described in step 8.
+- **Step 10**: Fetch messages per conversation by sending a GET request to the endpoint `/conversation/<id>/chat`. Here you replace `<id>` with the id of the conversation whose messages you want to query. You should get this id from the query in step 8 above. This endpoint also supports the same pagination params described in step 8.
 
 ## Video demo (only visible to those who have this link)
 
