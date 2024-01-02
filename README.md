@@ -70,6 +70,8 @@ Each endpoint has the following:
 
 This design is not void of flaws, and deserves some improvements. I focused more on the essentials of the challenge due to time constraints. Some of the limitations are:
 
+- **Reducing the number of database calls:** for each entry in the csv file, we're making two calls to the database. This is very inefficient and should be improved to drastically reduce the number of database calls.
+- **Use default pagination:** as part of existing best practices
 - **Processing csv file in memory:** a more scalable improvement would be to use streams and process the data in batches. This wasn't an issue at the moment since our file is small (1000 records of text content).
 - **Test coverage:** it is absolutety necessary to write at least unit and integration tests. I wrote unit tests for some services and would have done more and written integration test for endpoints if not because of time constraints. Adding more tests would increase the guarantee that we can add more features without breaking existing ones.
 - **Deleting objects from S3 bucket:** this would depend on the regulation on how long we should keep the files. It seems like we'll hardly reuse them hence they could be deleted programmatically after processing and storing the data in the database.
@@ -127,7 +129,3 @@ This design is not void of flaws, and deserves some improvements. I focused more
 - **Step 9**: Fetch Conversations by sending a GET request to the endpoint `/conversation/` to see the list of all conversations. This endpoint supports pagination and you can use it by providing `page` and `pageSize` query parameters. For example: `/conversation?page=1&pageSize=5`.
 
 - **Step 10**: Fetch messages per conversation by sending a GET request to the endpoint `/conversation/<id>/chat`. Here you replace `<id>` with the id of the conversation whose messages you want to query. You should get this id from the query in step 8 above. This endpoint also supports the same pagination params described in step 8.
-
-## Video demo (only visible to those who have this link)
-
-- https://www.youtube.com/watch?v=j4e-PAmVfi0
