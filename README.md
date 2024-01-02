@@ -82,8 +82,7 @@ This design is not void of flaws, and deserves some improvements. I focused more
 
 - **Step 1**: clone the repo to the local machine
 - **Step 2**: install dependencies -> `npm install`
-- **Step 3**: Create a `.env` file in the project root folder and copy the environment variables from `.envs.text` file into it.
-- - I've shared by credentials just to facilitate testing and ensure you can test without having to create your own S3 bucket or SQS queue. I will delete the account attached to these credentials after the testing. But if you wish to your own AWS service and credentials, it's still fine - simply update the corresponding environment variables.
+- **Step 3**: Create a `.env` file in the project root folder and copy the environment variables from `.envs.text` file into it, and provide values for your AWS credentials.
 - **Step 4**: Run a database migration -> `npx prisma migrate dev` on your terminal. This would create the database client. Before doing this, ensure your postgres db instance is up and running.
 - **Step 5**: Run unit tests -> `npm run test`
 - **Step 6**: Start the app locally -> `npm run dev`
